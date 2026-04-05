@@ -1,0 +1,305 @@
+/* src/styles/ExportStep.css */
+.export-step {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ── Hero ── */
+.export-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.export-hero-ornament {
+  font-size: 12px;
+  letter-spacing: 10px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.export-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.export-subtitle {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--sepia);
+  margin-bottom: 20px;
+}
+
+.album-summary-pills {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.summary-pill {
+  padding: 4px 14px;
+  border-radius: 100px;
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--sepia);
+  text-transform: capitalize;
+}
+
+/* ── Export grid ── */
+.export-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+@media (max-width: 720px) {
+  .export-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Export card ── */
+.export-card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.export-card-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+.export-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink);
+}
+.export-card-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--sepia);
+  line-height: 1.6;
+}
+
+/* ── PDF specs ── */
+.pdf-specs {
+  background: var(--parchment);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--sepia);
+}
+.spec-row span:last-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── Export progress ── */
+.export-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.export-progress-track {
+  height: 3px;
+  background: var(--parchment);
+  border-radius: 2px;
+}
+.export-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.export-progress-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--dust);
+  text-align: center;
+}
+
+.export-download-btn {
+  font-size: 14px;
+  padding: 14px 28px;
+  justify-content: center;
+}
+
+.export-note {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--dust);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── Vendor list ── */
+.vendor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vendor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--warm-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.vendor-card:hover { border-color: var(--gold-light); background: var(--parchment); }
+.vendor-card.selected { border-color: var(--gold); background: var(--gold-pale); }
+
+.vendor-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.vendor-info { flex: 1; min-width: 0; }
+.vendor-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+.vendor-name {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.vendor-badge {
+  padding: 1px 7px;
+  border-radius: 100px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.vendor-badge.india { background: rgba(201,150,58,0.15); color: var(--sepia); }
+.vendor-badge.api { background: rgba(107,124,94,0.15); color: var(--sage); }
+
+.vendor-desc {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--sepia);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vendor-meta {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--dust);
+  display: flex;
+  gap: 4px;
+}
+
+.vendor-arrow {
+  font-size: 18px;
+  color: var(--dust);
+}
+
+/* ── Vendor CTA ── */
+.vendor-cta {
+  background: var(--parchment);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.vendor-cta-note {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--sepia);
+  font-style: italic;
+}
+.vendor-cta-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Print guide ── */
+.print-guide {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+}
+.print-guide-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: italic;
+  margin-bottom: 24px;
+  color: var(--ink);
+}
+.print-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 760px) {
+  .print-steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .print-steps { grid-template-columns: 1fr; }
+}
+.print-step { display: flex; flex-direction: column; gap: 8px; }
+.print-step-num {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  background: var(--gold-pale);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.print-step-title {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.print-step-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--sepia);
+  line-height: 1.6;
+}
+
+/* ── Actions ── */
+.export-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
