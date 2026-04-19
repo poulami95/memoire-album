@@ -73,15 +73,18 @@ export default function AlbumPageRenderer({ page, config, thumbnail = false, onR
                 }}
               >
                 {imgSlot.url ? (
-                  <img
-                    src={imgSlot.url}
-                    alt={imgSlot.caption || `Photo ${idx + 1}`}
+                  <div
                     className="slot-img"
-                    onError={e => {
-                      const t = e.target as HTMLImageElement;
-                      t.style.display = 'none';
-                      (t.parentElement as HTMLElement).classList.add('img-error');
+                    style={{
+                      backgroundImage: `url(${imgSlot.url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                      width: '100%',
+                      height: '100%',
                     }}
+                    role="img"
+                    aria-label={imgSlot.caption || `Photo ${idx + 1}`}
                   />
                 ) : (
                   <div className="slot-placeholder"><span>◈</span></div>

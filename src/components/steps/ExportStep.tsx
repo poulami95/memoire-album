@@ -22,19 +22,18 @@ export default function ExportStep() {
     setExportProgress(0);
     setShowExportPages(true);
 
-    // Wait for React to mount the hidden pages and for blob-URL images to paint
-    await new Promise<void>(resolve => setTimeout(resolve, 300));
+    // Wait for React to mount the hidden pages
+    await new Promise<void>(resolve => setTimeout(resolve, 100));
 
-    // Wait for any images still loading
-    const container = document.getElementById('export-pages-container');
-    if (container) {
-      const imgs = Array.from(container.querySelectorAll('img'));
-      await Promise.all(imgs.map(img =>
-        img.complete
-          ? Promise.resolve()
-          : new Promise<void>(res => { img.onload = img.onerror = () => res(); })
-      ));
-    }
+    // Preload all image URLs (background-image divs, not <img> tags)
+    const allUrls = pages.flatMap(p => p.images.map(i => i.url).filter(Boolean));
+    await Promise.all(allUrls.map(url =>
+      new Promise<void>(res => {
+        const img = new Image();
+        img.onload = img.onerror = () => res();
+        img.src = url!;
+      })
+    ));
 
     try {
       toast('Generating PDF…', { icon: '⬦' });
