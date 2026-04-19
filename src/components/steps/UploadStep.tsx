@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { useAlbum } from '../../context/AlbumContext';
 import { UploadedImage } from '../../types';
+import { smartSelectImages } from '../../utils/aiService';
 import '../../styles/UploadStep.css';
 
 const ACCEPTED_TYPES: Record<string, string[]> = {
@@ -27,7 +28,7 @@ function createImageFromFile(file: File): UploadedImage {
 }
 
 export default function UploadStep() {
-  const { state, addImages, removeImage, toggleImageSelect, setStep } = useAlbum();
+  const { state, addImages, removeImage, toggleImageSelect, setStep, dispatch } = useAlbum();
   const { project } = state;
   const images = project.images;
 
@@ -35,6 +36,9 @@ export default function UploadStep() {
   const [urlInput, setUrlInput] = useState('');
   const [isLoadingDrive, setIsLoadingDrive] = useState(false);
   const [activeTab, setActiveTab] = useState<'upload' | 'drive' | 'url'>('upload');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzeProgress, setAnalyzeProgress] = useState(0);
+  const [hasAiScores, setHasAiScores] = useState(false);
 
   const onDrop = useCallback((accepted: File[]) => {
     const newImages = accepted.map(createImageFromFile);
@@ -96,6 +100,26 @@ export default function UploadStep() {
       toast.success('Image URL added');
     } catch {
       toast.error('Invalid URL');
+    }
+  };
+
+  const handleAiSmartSelect = async () => {
+    if (images.length === 0 || isAnalyzing) return;
+    setIsAnalyzing(true);
+    setAnalyzeProgress(0);
+    try {
+      const analyzed = await smartSelectImages(images, (i, total) => {
+        setAnalyzeProgress(Math.round((i / total) * 100));
+      });
+      analyzed.forEach(img => dispatch({ type: 'UPDATE_IMAGE', payload: img }));
+      setHasAiScores(true);
+      const selected = analyzed.filter(i => i.selected).length;
+      toast.success(`AI picked ${selected} best photo${selected !== 1 ? 's' : ''} ✦`);
+    } catch (err: any) {
+      toast.error('AI selection failed: ' + (err?.message || 'Unknown error'));
+    } finally {
+      setIsAnalyzing(false);
+      setAnalyzeProgress(0);
     }
   };
 
@@ -222,9 +246,34 @@ export default function UploadStep() {
               Your Photos
               <span className="image-count-badge">{images.length}</span>
             </h3>
-            <p className="image-grid-hint">
-              {selectedCount} selected · AI will curate the best shots automatically
-            </p>
+            <div className="image-grid-header-right">
+              {hasAiScores && (
+                <p className="image-grid-hint">
+                  {selectedCount} selected by AI · click to toggle
+                </p>
+              )}
+              {!hasAiScores && (
+                <p className="image-grid-hint">
+                  {selectedCount} selected · AI will curate on generate
+                </p>
+              )}
+              {images.length >= 2 && (
+                <button
+                  className={`btn ai-select-btn ${isAnalyzing ? 'loading' : ''}`}
+                  onClick={handleAiSmartSelect}
+                  disabled={isAnalyzing}
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <span className="ai-select-spinner" />
+                      Analysing {analyzeProgress}%
+                    </>
+                  ) : (
+                    <>✦ AI Smart Select</>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="image-grid">
@@ -251,6 +300,11 @@ export default function UploadStep() {
                   )}
                   {img.source === 'url' && (
                     <span className="image-source-badge">⬦ URL</span>
+                  )}
+                  {img.aiScore !== undefined && (
+                    <span className={`ai-score-badge ${img.aiScore >= 75 ? 'high' : img.aiScore >= 55 ? 'mid' : 'low'}`}>
+                      {img.aiScore}
+                    </span>
                   )}
                 </div>
                 <div className="image-meta">

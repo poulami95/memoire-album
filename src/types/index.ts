@@ -38,6 +38,20 @@ export interface UploadedImage {
   thumbnail?: string;
 }
 
+export type PageBorderStyle =
+  | 'none'
+  | 'hairline'
+  | 'thick-mat'
+  | 'double-line'
+  | 'corner-marks'
+  | 'inset-mat';
+
+export interface NarrativeContent {
+  heading: string;
+  subheading?: string;
+  body?: string;
+}
+
 export interface AlbumPage {
   id: string;
   pageNumber: number;
@@ -46,6 +60,8 @@ export interface AlbumPage {
   caption?: string;
   backgroundColor?: string;
   theme?: string;
+  pageStyle?: PageBorderStyle;
+  textContent?: NarrativeContent;
 }
 
 export interface AlbumPageImage {
@@ -74,7 +90,8 @@ export interface LayoutSlot {
 export interface AlbumConfig {
   occasion: OccasionType;
   eventTitle: string;
-  eventDescription: string;
+  eventDescription?: string;
+  stylePrompt?: string;
   eventDate?: string;
   pageCount: number;
   layout: AlbumLayout;

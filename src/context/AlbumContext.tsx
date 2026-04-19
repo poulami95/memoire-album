@@ -17,7 +17,7 @@ interface AlbumState {
 const defaultConfig: AlbumConfig = {
   occasion: 'family',
   eventTitle: '',
-  eventDescription: '',
+  stylePrompt: '',
   pageCount: 12,
   layout: 'modern',
   size: 'landscape',

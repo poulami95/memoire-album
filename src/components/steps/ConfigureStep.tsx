@@ -39,6 +39,17 @@ const COLOR_THEMES = [
 
 const PAGE_PRESETS = [8, 12, 16, 20, 24, 32, 40, 48];
 
+const VISION_CHIPS = [
+  'Minimalist & clean',
+  'Warm & romantic',
+  'Dark & moody',
+  'Bright & airy',
+  'Botanical & natural',
+  'Vintage & film',
+  'Bold & editorial',
+  'Soft pastels',
+];
+
 export default function ConfigureStep() {
   const { state, updateConfig, setStep } = useAlbum();
   const config = state.project.config;
@@ -47,7 +58,6 @@ export default function ConfigureStep() {
 
   const canProceed =
     config.eventTitle.trim().length >= 2 &&
-    config.eventDescription.trim().length >= 10 &&
     config.occasion;
 
   return (
@@ -89,7 +99,7 @@ export default function ConfigureStep() {
           <section className="config-section">
             <h3 className="config-section-title">
               <span className="section-num">02</span>
-              Event Details
+              Album Details
             </h3>
             <div className="field-group">
               <label className="field-label">Album Title *</label>
@@ -100,18 +110,6 @@ export default function ConfigureStep() {
                 onChange={e => update('eventTitle')(e.target.value)}
                 maxLength={80}
               />
-            </div>
-            <div className="field-group">
-              <label className="field-label">Event Description *</label>
-              <textarea
-                className="input"
-                placeholder="Describe the event, mood, and special moments you'd like highlighted…"
-                value={config.eventDescription}
-                onChange={e => update('eventDescription')(e.target.value)}
-                rows={4}
-                maxLength={500}
-              />
-              <span className="char-count">{config.eventDescription.length}/500</span>
             </div>
             <div className="field-row">
               <div className="field-group">
@@ -136,6 +134,44 @@ export default function ConfigureStep() {
             </div>
           </section>
 
+          {/* Creative Vision */}
+          <section className="config-section vision-section">
+            <h3 className="config-section-title">
+              <span className="section-num">03</span>
+              Creative Vision
+            </h3>
+            <p className="vision-hint">
+              Describe the look, feel, and style you want. AI will use this to design layouts,
+              choose colour palettes, and write captions.
+            </p>
+            <div className="field-group">
+              <textarea
+                className="input vision-input"
+                placeholder="e.g. Green and white minimalistic wedding photo book, soft botanical, clean typography, airy and romantic…"
+                value={config.stylePrompt || ''}
+                onChange={e => update('stylePrompt')(e.target.value)}
+                rows={3}
+                maxLength={300}
+              />
+              <span className="char-count">{(config.stylePrompt || '').length}/300</span>
+            </div>
+            <div className="vision-chips">
+              {VISION_CHIPS.map(chip => (
+                <button
+                  key={chip}
+                  className="vision-chip"
+                  onClick={() => {
+                    const current = config.stylePrompt || '';
+                    const sep = current && !current.endsWith(', ') ? ', ' : '';
+                    update('stylePrompt')(current + sep + chip);
+                  }}
+                >
+                  + {chip}
+                </button>
+              ))}
+            </div>
+          </section>
+
         </div>
 
         {/* ── Right column ── */}
@@ -144,7 +180,7 @@ export default function ConfigureStep() {
           {/* Pages */}
           <section className="config-section">
             <h3 className="config-section-title">
-              <span className="section-num">03</span>
+              <span className="section-num">04</span>
               Page Count
             </h3>
             <div className="page-preset-grid">
@@ -176,7 +212,7 @@ export default function ConfigureStep() {
           {/* Layout style */}
           <section className="config-section">
             <h3 className="config-section-title">
-              <span className="section-num">04</span>
+              <span className="section-num">05</span>
               Layout Style
             </h3>
             <div className="layout-grid">
@@ -199,7 +235,7 @@ export default function ConfigureStep() {
           {/* Physical options */}
           <section className="config-section">
             <h3 className="config-section-title">
-              <span className="section-num">05</span>
+              <span className="section-num">06</span>
               Print Specifications
             </h3>
             <div className="spec-grid">
@@ -245,7 +281,7 @@ export default function ConfigureStep() {
           {/* Color theme */}
           <section className="config-section">
             <h3 className="config-section-title">
-              <span className="section-num">06</span>
+              <span className="section-num">07</span>
               Colour Theme
             </h3>
             <div className="color-theme-grid">
@@ -266,7 +302,7 @@ export default function ConfigureStep() {
           {/* Toggle options */}
           <section className="config-section">
             <h3 className="config-section-title">
-              <span className="section-num">07</span>
+              <span className="section-num">08</span>
               Options
             </h3>
             <div className="toggle-options">
@@ -304,7 +340,7 @@ export default function ConfigureStep() {
         <div className="configure-actions-right">
           {!canProceed && (
             <p className="configure-warning">
-              Please fill in the album title and a description (min 10 chars)
+              Please fill in the album title and choose an occasion
             </p>
           )}
           <button

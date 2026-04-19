@@ -50,6 +50,48 @@
   display: flex;
 }
 
+/* ── Slot replace button (hover to reveal) ── */
+.image-slot.replaceable {
+  cursor: pointer;
+}
+
+.slot-replace-btn {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 20, 18, 0);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.22s ease, background 0.22s ease;
+  z-index: 15;
+  padding: 0;
+}
+.image-slot.replaceable:hover .slot-replace-btn {
+  opacity: 1;
+  background: rgba(26, 20, 18, 0.42);
+}
+
+.slot-replace-icon-inner {
+  font-size: clamp(14px, 2.5vw, 22px);
+  color: white;
+  line-height: 1;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5));
+}
+.slot-replace-label-inner {
+  font-family: var(--font-ui);
+  font-size: clamp(7px, 1vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+
 /* ── Polaroid frame ── */
 .polaroid-frame {
   position: absolute;
@@ -213,4 +255,122 @@
 }
 .album-page.thumbnail .cover-date {
   font-size: 5px;
+}
+
+/* ── Narrative / text-only page ── */
+.album-page.narrative-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.narrative-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 10% 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 20px);
+  width: 100%;
+}
+
+.narrative-accent-line {
+  width: 40px;
+  height: 2px;
+  border-radius: 1px;
+  margin-bottom: 4px;
+}
+
+.narrative-heading {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 4.5vw, 58px);
+  font-weight: 400;
+  font-style: italic;
+  color: #1a1412;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.narrative-subheading {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 2vw, 26px);
+  font-style: italic;
+  color: #7a5c3e;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.narrative-body {
+  font-family: var(--font-body);
+  font-size: clamp(10px, 1.4vw, 16px);
+  color: #5a4535;
+  line-height: 1.8;
+  max-width: 75%;
+  text-align: center;
+}
+
+.narrative-ornament {
+  font-size: clamp(10px, 1.2vw, 14px);
+  margin-top: 4px;
+  opacity: 0.5;
+}
+
+.narrative-thumb-stub {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+/* ── Border/backdrop overlays ── */
+.border-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9;
+}
+
+/* Hairline: thin inset border */
+.border-overlay.hairline {
+  inset: 10px;
+  border: 1px solid;
+}
+
+/* Thick mat: colored frame band */
+.border-overlay.thick-mat {
+  inset: 0;
+  box-shadow: inset 0 0 0 22px rgba(0,0,0,0.08);
+}
+
+/* Double line: two concentric borders */
+.border-overlay.double-outer {
+  inset: 8px;
+  border: 1.5px solid;
+}
+.border-overlay.double-inner {
+  inset: 13px;
+  border: 0.5px solid;
+}
+
+/* Corner marks: L-shaped marks at each corner */
+.border-overlay.corner-marks-wrap {
+  inset: 0;
+}
+.cm {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-style: solid;
+}
+.cm-tl { top: 12px; left: 12px;  border-width: 1.5px 0 0 1.5px; }
+.cm-tr { top: 12px; right: 12px; border-width: 1.5px 1.5px 0 0; }
+.cm-bl { bottom: 12px; left: 12px;  border-width: 0 0 1.5px 1.5px; }
+.cm-br { bottom: 12px; right: 12px; border-width: 0 1.5px 1.5px 0; }
+
+/* Inset mat: inner shadow mat effect */
+.border-overlay.inset-mat {
+  inset: 0;
 }
