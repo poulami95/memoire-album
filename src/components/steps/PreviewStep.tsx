@@ -79,9 +79,9 @@ export default function PreviewStep() {
 
       const t2 = setTimeout(() => {
         setFlipState('idle');
-      }, 380);
+      }, 240);
       flipTimers.current.push(t2);
-    }, 320);
+    }, 180);
     flipTimers.current.push(t1);
   }, [flipState, currentPageIdx, pages.length]);
 

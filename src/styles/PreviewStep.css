@@ -112,39 +112,48 @@
 
 /* Going forward — right side lifts and peels left */
 @keyframes flipOutNext {
-  0%   { transform: perspective(1400px) rotateY(0deg)    translateZ(0px);   opacity: 1;   }
-  40%  { transform: perspective(1400px) rotateY(-6deg)   translateZ(10px);  opacity: 0.9; }
-  100% { transform: perspective(1400px) rotateY(-22deg)  translateZ(0px)  scaleX(0.94); opacity: 0; }
+  0%   { transform: perspective(1400px) rotateY(0deg)   translateZ(0);  opacity: 1;   }
+  100% { transform: perspective(1400px) rotateY(-18deg) translateZ(0) scaleX(0.95); opacity: 0; }
 }
 @keyframes flipInNext {
-  0%   { transform: perspective(1400px) rotateY(22deg)   translateZ(0px)  scaleX(0.94); opacity: 0; }
-  60%  { transform: perspective(1400px) rotateY(4deg)    translateZ(12px);  opacity: 0.9; }
-  100% { transform: perspective(1400px) rotateY(0deg)    translateZ(0px);   opacity: 1;   }
+  0%   { transform: perspective(1400px) rotateY(18deg)  translateZ(0) scaleX(0.95); opacity: 0; }
+  100% { transform: perspective(1400px) rotateY(0deg)   translateZ(0);  opacity: 1;   }
 }
 
 /* Going backward — left side lifts and peels right */
 @keyframes flipOutPrev {
-  0%   { transform: perspective(1400px) rotateY(0deg)   translateZ(0px);   opacity: 1;   }
-  40%  { transform: perspective(1400px) rotateY(6deg)   translateZ(10px);  opacity: 0.9; }
-  100% { transform: perspective(1400px) rotateY(22deg)  translateZ(0px)  scaleX(0.94); opacity: 0; }
+  0%   { transform: perspective(1400px) rotateY(0deg)  translateZ(0);  opacity: 1;   }
+  100% { transform: perspective(1400px) rotateY(18deg) translateZ(0) scaleX(0.95); opacity: 0; }
 }
 @keyframes flipInPrev {
-  0%   { transform: perspective(1400px) rotateY(-22deg) translateZ(0px)  scaleX(0.94); opacity: 0; }
-  60%  { transform: perspective(1400px) rotateY(-4deg)  translateZ(12px);  opacity: 0.9; }
-  100% { transform: perspective(1400px) rotateY(0deg)   translateZ(0px);   opacity: 1;   }
+  0%   { transform: perspective(1400px) rotateY(-18deg) translateZ(0) scaleX(0.95); opacity: 0; }
+  100% { transform: perspective(1400px) rotateY(0deg)   translateZ(0);  opacity: 1;   }
 }
 
 .book-spread.flip-out-next,
-.solo-page-wrap.flip-out-next { animation: flipOutNext 0.32s cubic-bezier(0.4, 0, 0.8, 0.6) forwards; transform-origin: center center; }
-
+.solo-page-wrap.flip-out-next {
+  animation: flipOutNext 0.18s cubic-bezier(0.4, 0, 1, 1) forwards;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
 .book-spread.flip-in-next,
-.solo-page-wrap.flip-in-next  { animation: flipInNext  0.38s cubic-bezier(0.2, 0, 0.3, 1)   forwards; transform-origin: center center; }
-
+.solo-page-wrap.flip-in-next  {
+  animation: flipInNext  0.24s cubic-bezier(0, 0, 0.2, 1) forwards;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
 .book-spread.flip-out-prev,
-.solo-page-wrap.flip-out-prev { animation: flipOutPrev 0.32s cubic-bezier(0.4, 0, 0.8, 0.6) forwards; transform-origin: center center; }
-
+.solo-page-wrap.flip-out-prev {
+  animation: flipOutPrev 0.18s cubic-bezier(0.4, 0, 1, 1) forwards;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
 .book-spread.flip-in-prev,
-.solo-page-wrap.flip-in-prev  { animation: flipInPrev  0.38s cubic-bezier(0.2, 0, 0.3, 1)   forwards; transform-origin: center center; }
+.solo-page-wrap.flip-in-prev  {
+  animation: flipInPrev  0.24s cubic-bezier(0, 0, 0.2, 1) forwards;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
 
 /* ─────────────────────────────────────────
    BOOK SPREAD
@@ -159,7 +168,6 @@
   display: flex;
   align-items: stretch;
   border-radius: var(--radius-lg);
-  overflow: hidden;
   box-shadow:
     -8px 0 20px rgba(26,20,18,0.12),
     8px 0 20px rgba(26,20,18,0.12),

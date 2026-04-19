@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useAlbum } from '../../context/AlbumContext';
 import { exportAlbumToPDF, downloadBlob, printingVendors } from '../../utils/exportService';
+import AlbumPageRenderer from '../AlbumPageRenderer';
 import toast from 'react-hot-toast';
 import '../../styles/ExportStep.css';
 
@@ -14,10 +15,27 @@ export default function ExportStep() {
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [selectedVendor, setSelectedVendor] = useState<string | null>(null);
+  const [showExportPages, setShowExportPages] = useState(false);
 
   const handleDownloadPDF = async () => {
     setIsExporting(true);
     setExportProgress(0);
+    setShowExportPages(true);
+
+    // Wait for React to mount the hidden pages and for blob-URL images to paint
+    await new Promise<void>(resolve => setTimeout(resolve, 300));
+
+    // Wait for any images still loading
+    const container = document.getElementById('export-pages-container');
+    if (container) {
+      const imgs = Array.from(container.querySelectorAll('img'));
+      await Promise.all(imgs.map(img =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise<void>(res => { img.onload = img.onerror = () => res(); })
+      ));
+    }
+
     try {
       toast('Generating PDF…', { icon: '⬦' });
       const blob = await exportAlbumToPDF(config, pages, setExportProgress);
@@ -28,6 +46,7 @@ export default function ExportStep() {
       toast.error('PDF export failed: ' + (err?.message || 'Unknown error'));
     } finally {
       setIsExporting(false);
+      setShowExportPages(false);
     }
   };
 
@@ -211,6 +230,26 @@ export default function ExportStep() {
           ))}
         </div>
       </div>
+
+      {/* Hidden off-screen pages rendered for PDF capture */}
+      {showExportPages && (() => {
+        const isLandscape = config.size === 'landscape';
+        const isPortrait  = config.size === 'portrait';
+        const w = isLandscape ? 900 : isPortrait ? 600 : 720;
+        const h = isLandscape ? 637 : isPortrait ? 852 : 720;
+        return (
+          <div
+            id="export-pages-container"
+            style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}
+          >
+            {pages.map(page => (
+              <div key={page.id} id={`album-page-${page.id}`} style={{ width: w, height: h, position: 'absolute' }}>
+                <AlbumPageRenderer page={page} config={config} />
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* ── Actions ── */}
       <div className="export-actions">
