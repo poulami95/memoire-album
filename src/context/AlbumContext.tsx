@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 import {
   AlbumProject, AlbumConfig, UploadedImage, AlbumPage,
-  WorkflowStep, OccasionType, AlbumLayout
+  WorkflowStep
 } from '../types';
 
 interface AlbumState {

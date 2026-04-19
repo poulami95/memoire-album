@@ -1,7 +1,7 @@
 // src/components/steps/ConfigureStep.tsx
 import React from 'react';
 import { useAlbum } from '../../context/AlbumContext';
-import { OccasionType, AlbumLayout, AlbumSize, AlbumCoverStyle, PaperFinish } from '../../types';
+import { OccasionType, AlbumLayout } from '../../types';
 import '../../styles/ConfigureStep.css';
 
 const OCCASIONS: { id: OccasionType; label: string; icon: string; desc: string }[] = [
@@ -360,7 +360,6 @@ export default function ConfigureStep() {
 /* ── Layout preview mini-SVGs ── */
 function LayoutPreview({ id }: { id: AlbumLayout }) {
   const fill = 'rgba(122,92,62,0.25)';
-  const bg = 'transparent';
   const r = 2;
   switch (id) {
     case 'modern':
